@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     public GameObject playerCanvas;
     public GameObject cam;
     public float direction = 0f;
-    float normalizedDirection;
+    public float normalizedDirection;
     public bool rotationDone = true;
     public float newXPos, newYPos, newZPos;
     public Vector3 previousPos;
@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     public Vector3 cameraTargetPos;
     public float cameraDirection = -45f;
     public Grid _gridScript;
+    public bool bridgeDone = true;
     private void Update()
     {
         cam.transform.position = Vector3.Lerp(cam.transform.position, cameraTargetPos, Time.deltaTime * transitionSpeed);
@@ -51,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Forward()
     {
-        if (stepDone == false || rotationDone == false) return;
+        if (stepDone == false || rotationDone == false || bridgeDone == false) return;
         stepDone = false;
         if (_gridScript.CheckNextStep(normalizedDirection) == true)
         {
@@ -65,7 +66,7 @@ public class PlayerMovement : MonoBehaviour
     public void Left()
     {
 
-        if (stepDone == false || rotationDone == false) return;
+        if (stepDone == false || rotationDone == false || bridgeDone == false) return;
         rotationDone = false;
         direction += -90f;
         cameraDirection += -90f;
@@ -75,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
     public void Right()
     {
 
-        if (stepDone == false || rotationDone == false) return;
+        if (stepDone == false || rotationDone == false || bridgeDone == false) return;
         rotationDone = false;
         direction += 90f;
         cameraDirection += 90f;
@@ -106,7 +107,6 @@ public class PlayerMovement : MonoBehaviour
         {
             cameraTargetPos = new Vector3(x + 65, 65, z + 65);
         }
-        Debug.Log(cameraTargetPos);
     }
 
     private void Step()

@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
-
+using TMPro;
 public class Grid : MonoBehaviour
 {
     public Material terrainMaterial;
@@ -11,14 +11,19 @@ public class Grid : MonoBehaviour
     public GameObject block;
     public GameObject grass;
     public GameObject bush;
+    public GameObject bridge;
     public GameObject allBlocks;
     public GameObject allGrass;
     public GameObject allBushes;
+    public GameObject allBridges;
     public float blockOffset = 2f;
     public Cell[,] grid;
     public PlayerMovement _movementScript;
+    public int bridgeCount = 20;
+    public TMP_Text bridgeButton;
     void Start()
     {
+        bridgeButton.text = "Bridges left = " + bridgeCount;
         float[,] noiseMap = new float[size, size];
         (float xOffset, float yOffset) = (Random.Range(-10000f, 10000f), Random.Range(-10000f, 10000f));
         for (int y = 0; y < size; y++)
@@ -96,16 +101,28 @@ public class Grid : MonoBehaviour
         _movementScript.Player.transform.position = new Vector3(randX + blockOffset, 3, randY + blockOffset);
         _movementScript.cameraTargetPos = new Vector3(randX + blockOffset + 65, 65, randY + blockOffset - 65);
     }
+    void spawnBridge(int x, int y, float dir)
+    {
+        var b = Instantiate(bridge, new Vector3(x + blockOffset, 0, y + blockOffset), Quaternion.Euler(0,dir,0));
+        b.transform.parent = allBridges.transform;
+        _movementScript.bridgeDone = true;
+        bridgeCount--;
+        bridgeButton.text = "Bridges left = " + bridgeCount;
+        grid[x, y].isWater = false;
+    }
     public bool CheckNextStep(float dir)
     {
         int x = Mathf.RoundToInt(_movementScript.Player.transform.position.x - blockOffset);
         int y = Mathf.RoundToInt(_movementScript.Player.transform.position.z - blockOffset);
-
+        bool placeBridge = !_movementScript.bridgeDone;
         if (dir == 0)
         {
             if (grid[x, y + 1].isWater)
             {
-
+                if (placeBridge)
+                {
+                    spawnBridge(x, y + 1,dir);
+                }
                 return false;
             }
             else return true;
@@ -115,6 +132,10 @@ public class Grid : MonoBehaviour
         {
             if (grid[x + 1, y].isWater)
             {
+                if (placeBridge)
+                {
+                    spawnBridge(x + 1, y, dir);
+                }
                 return false;
             }
             else return true;
@@ -125,6 +146,10 @@ public class Grid : MonoBehaviour
         {
             if (grid[x, y - 1].isWater)
             {
+                if (placeBridge)
+                {
+                    spawnBridge(x, y - 1, dir);
+                }
                 return false;
             }
             else return true;
@@ -135,6 +160,10 @@ public class Grid : MonoBehaviour
         {
             if (grid[x - 1, y].isWater)
             {
+                if (placeBridge)
+                {
+                    spawnBridge(x - 1, y, dir);
+                }
                 return false;
             }
             else return true;
@@ -142,35 +171,57 @@ public class Grid : MonoBehaviour
         else
             return false;
     }
+
     void spawnGrass(Cell[,] grid)
     {
-        
+
         int bushCount = Random.Range(100, 200);
         int x, y;
-        for ( x = 0; x < size; x++)
+        for (x = 0; x < size; x++)
         {
-            for ( y = 0; y < size; y++)
+            for (y = 0; y < size; y++)
             {
                 if (grid[x, y].hasGrass)
                 {
                     var b = Instantiate(grass, new Vector3(x + blockOffset, -0.5f, y + blockOffset), Quaternion.identity);
                     b.transform.parent = allGrass.transform;
-                    
+
                 }
             }
         }
-        
+
         do
         {
             x = Random.Range(0, size);
             y = Random.Range(0, size);
-            if (grid[x, y].isWater==false && grid[x,y].hasGrass==false)
+            if (grid[x, y].isWater == false && grid[x, y].hasGrass == false)
             {
                 var b = Instantiate(bush, new Vector3(x + blockOffset, 0.5f, y + blockOffset), Quaternion.identity);
                 b.transform.parent = allBushes.transform;
                 bushCount--;
             }
-        } while (bushCount>0);
+        } while (bushCount > 0);
     }
+    public void checkBridge()
+    {
+        if (_movementScript.bridgeDone == false)
+        {
+            Debug.Log("Wait until first bridge is done!");
+            return;
+        }
+        _movementScript.bridgeDone = false;
+        float dir = _movementScript.normalizedDirection;
+        if (bridgeCount == 0)
+        {
+            Debug.Log("No more bridges! You can't place any");
+            _movementScript.bridgeDone = true;
+            return;
+        }
+        if (CheckNextStep(dir) == true)
+        {
+            Debug.Log("Can't place here! It's not water");
+            _movementScript.bridgeDone = true;
+        }
 
+    }
 }
