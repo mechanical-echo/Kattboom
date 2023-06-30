@@ -20,42 +20,51 @@ public class PlayerMovement : MonoBehaviour
     public float transitionSpeed = 2f;
     public Vector3 cameraTargetPos;
     public float cameraDirection = -45f;
+    public Grid _gridScript;
     private void Update()
     {
-        cam.transform.position = Vector3.Lerp(cam.transform.position, cameraTargetPos, Time.deltaTime * 1.5f);
-        cam.transform.rotation = Quaternion.LookRotation(-(cam.transform.position - Player.transform.position));
+        cam.transform.position = Vector3.Lerp(cam.transform.position, cameraTargetPos, Time.deltaTime * transitionSpeed);
+        if (stepDone == true) cam.transform.rotation = Quaternion.LookRotation(-(cam.transform.position - Player.transform.position));
 
         playerCanvas.transform.rotation = Quaternion.LookRotation(playerCanvas.transform.position - cam.transform.position);
-        
+
         Player.transform.rotation = Quaternion.Lerp(Player.transform.rotation, Quaternion.Euler(0f, direction, 0f), Time.deltaTime * transitionSpeed);
-        
+
         normalizedDirection = (direction % 360 + 360) % 360;
-        
+
         if (Player.transform.rotation == Quaternion.Euler(0f, direction, 0f) && stepDone == true)
         {
             rotationDone = true;
-           playerCanvas.SetActive(false);
+            playerCanvas.SetActive(false);
         }
-        else if(rotationDone==false) 
+        else if (rotationDone == false)
         {
             playerCanvas.SetActive(true);
         }
     }
     void Start()
     {
-        
+
         playerCanvas.transform.rotation = Quaternion.LookRotation(playerCanvas.transform.position - cam.transform.position);
         playerCanvas.SetActive(false);
         previousPos = Player.GetComponent<Transform>().position;
     }
     public void Forward()
     {
-        if (stepDone == false || rotationDone==false) return;
+        if (stepDone == false || rotationDone == false) return;
         stepDone = false;
-        Step();
+        if (_gridScript.CheckNextStep(normalizedDirection) == true)
+        {
+            Step();
+        }
+        else
+        {
+            stepDone = true;
+        }
     }
     public void Left()
     {
+
         if (stepDone == false || rotationDone == false) return;
         rotationDone = false;
         direction += -90f;
@@ -65,6 +74,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Right()
     {
+
         if (stepDone == false || rotationDone == false) return;
         rotationDone = false;
         direction += 90f;
@@ -74,13 +84,12 @@ public class PlayerMovement : MonoBehaviour
     }
     private void changeCameraPosition()
     {
-        float x = Player.transform.position.x, z=Player.transform.position.z;
-        Debug.Log("x = "+x+", "+z);
-        Debug.Log("Direction = " + normalizedDirection);
+        float x = Player.transform.position.x, z = Player.transform.position.z;
+
         if (normalizedDirection == 0)
         {
             cameraTargetPos = new Vector3(x + 65, 65, z - 65);
-           
+
         }
         else
         if (normalizedDirection == 90)
@@ -104,11 +113,10 @@ public class PlayerMovement : MonoBehaviour
     {
         playerCanvas.SetActive(true);
         previousPos = Player.GetComponent<Transform>().position;
-        newXPos = previousPos.x; 
-        newZPos = previousPos.z; 
+        newXPos = previousPos.x;
+        newZPos = previousPos.z;
         newYPos = previousPos.y;
-        float x=cam.transform.position.x, z=cam.transform.position.z;
-        //forwards
+        float x = cam.transform.position.x, z = cam.transform.position.z;
         if (normalizedDirection == 0)
         {
             newXPos = previousPos.x;
@@ -127,7 +135,7 @@ public class PlayerMovement : MonoBehaviour
         {
             newXPos = previousPos.x;
             newZPos = previousPos.z - stepSize;
-            z -=stepSize;
+            z -= stepSize;
         }
         else
         if (normalizedDirection == 270)
