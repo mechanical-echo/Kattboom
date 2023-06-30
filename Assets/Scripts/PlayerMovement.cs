@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 /*--------------------------------------------
  *           Movement and rotation
  ---------------------------------------------*/
@@ -22,8 +23,10 @@ public class PlayerMovement : MonoBehaviour
     public float cameraDirection = -45f;
     public Grid _gridScript;
     public bool bridgeDone = true;
+    public TMP_Text textCoins;
     private void Update()
     {
+        textCoins.text = ""+Coins.totalCoins;
         cam.transform.position = Vector3.Lerp(cam.transform.position, cameraTargetPos, Time.deltaTime * transitionSpeed);
         if (stepDone == true) cam.transform.rotation = Quaternion.LookRotation(-(cam.transform.position - Player.transform.position));
 
