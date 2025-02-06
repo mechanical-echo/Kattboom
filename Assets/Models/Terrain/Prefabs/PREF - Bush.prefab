@@ -54,7 +54,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9a2201f290b07a44f9b1c7f30386bf83, type: 3}
       propertyPath: m_Name
-      value: OBJ - Bush Variant
+      value: PREF - Bush
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9a2201f290b07a44f9b1c7f30386bf83, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1151388028547126963, guid: 9a2201f290b07a44f9b1c7f30386bf83, type: 3}
       propertyPath: m_LocalScale.x
@@ -83,6 +87,10 @@ PrefabInstance:
     - target: {fileID: 8164078558771037576, guid: 9a2201f290b07a44f9b1c7f30386bf83, type: 3}
       propertyPath: m_Name
       value: Mesh - Bush
+      objectReference: {fileID: 0}
+    - target: {fileID: 8164078558771037576, guid: 9a2201f290b07a44f9b1c7f30386bf83, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

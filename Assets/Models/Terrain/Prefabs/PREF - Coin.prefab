@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1471106441626376917}
   - component: {fileID: -5139224222848726384}
   - component: {fileID: 4441472359554059892}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: PREF - Coin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25,6 +25,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 403609965536934962}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -32,7 +33,6 @@ Transform:
   m_Children:
   - {fileID: 4525544698063353488}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &-5139224222848726384
 MonoBehaviour:
@@ -78,7 +78,7 @@ GameObject:
   - component: {fileID: 5307451834011050211}
   - component: {fileID: 4887478714680558003}
   - component: {fileID: 3827536961263668645}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Mesh - Coin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,13 +92,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1145642095979591895}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0.392}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4525544698063353488}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4887478714680558003
 MeshFilter:
@@ -160,7 +160,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4525544698063353488}
   - component: {fileID: 7596877949738365731}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Pivot - Coin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -174,6 +174,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4123585710494148852}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -181,7 +182,6 @@ Transform:
   m_Children:
   - {fileID: 5307451834011050211}
   m_Father: {fileID: 1471106441626376917}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &7596877949738365731
 Animator:
